@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Arcade Hub</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #080c14;
+            color: #f8fafc;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 480px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #00f2fe;
+            font-size: 24px;
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+        }
+        /* Game Hub Grid */
+        .arcade-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .game-card {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            padding: 20px 15px;
+            border-radius: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid #1e293b;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .game-card:hover {
+            border-color: #00f2fe;
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+        }
+        .game-card h3 {
+            font-size: 15px;
+            color: #e2e8f0;
+            margin-top: 8px;
+        }
+        .game-icon {
+            font-size: 28px;
+        }
+        /* Game Screen Container */
+        .game-screen {
+            display: none;
+            background: #111827;
+            padding: 15px;
+            border-radius: 14px;
+            border: 1px solid #374151;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+        .back-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            float: left;
+            font-weight: bold;
+            font-size: 12px;
+            transition: 0.2s;
+        }
+        .back-btn:hover {
+            background: #dc2626;
+        }
+        .game-title-bar {
+            overflow: hidden;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .game-title-bar h2 {
+            font-size: 18px;
+            color: #38bdf8;
+        }
+        
+        /* Specific Game Layouts */
+        /* Snake */
+        #snakeCanvas {
+            background: #020617;
+            border: 2px solid #00f2fe;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+            display: block;
+            margin: 0 auto;
+        }
+        .controls-pad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            max-width: 180px;
+            margin: 12px auto 0 auto;
+        }
+        .ctrl-btn {
+            background: #1f2937;
+            color: white;
+            border: 1px solid #4b5563;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .ctrl-btn:active {
+            background: #00f2fe;
+            color: #000;
+        }
+
+        /* Tic-Tac-Toe */
+        .ttt-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            max-width: 240px;
+            margin: 20px auto;
+        }
+        .ttt-cell {
+            background: #1f2937;
+            height: 75px;
+            font-size: 32px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid #374151;
+            transition: 0.2s;
+        }
+        .ttt-cell:hover {
+            background: #374151;
+        }
+
+        /* Memory Cards */
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            max-width: 280px;
+            margin: 15px auto;
+        }
+        .memory-card {
+            background: #1f2937;
+            height: 60px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid #374151;
+            user-select: none;
+        }
+
+        /* Clicker Game */
+        .clicker-box {
+            height: 160px;
+            background: radial-gradient(circle, #1e1b4b, #0f172a);
+            border: 2px dashed #6366f1;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin: 15px 0;
+            font-size: 20px;
+            font-weight: bold;
+            color: #818cf8;
+            user-select: none;
+        }
+        .clicker-box:active {
+            background: #312e81;
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 10px;
+            background: #0284c7;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .action-btn:hover {
+            background: #0369a1;
+        }
+        .score-board {
+            font-size: 14px;
+            color: #38bdf8;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        /* Ad Banner Area */
+        .ad-banner {
+            margin-top: 15px;
+            background: #111827;
+            padding: 12px;
+            text-align: center;
+            border-radius: 10px;
+            border: 1px solid #374151;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>⚡ NEON ARCADE HUB ⚡</h1>
+
+    <!-- HOME / GAME LIST SCREEN -->
+    <div id="homeScreen" class="arcade-grid">
+        <div class="game-card" onclick="openGame('snakeGame')">
+            <div class="game-icon">🐍</div>
+            <h3>Neon Snake</h3>
+        </div>
+        <div class="game-card" onclick="openGame('tttGame')">
+            <div class="game-icon">❌</div>
+            <h3>Cyber Tic-Tac</h3>
+        </div>
+        <div class="game-card" onclick="openGame('memoryGame')">
+            <div class="game-icon">🃏</div>
+            <h3>Memory Flip</h3>
+        </div>
+        <div class="game-card" onclick="openGame('clickerGame')">
+            <div class="game-icon">🎯</div>
+            <h3>Tap Master</h3>
+        </div>
+    </div>
+
+    <!-- GAME 1: NEON SNAKE -->
+    <div id="snakeGame" class="game-screen">
+        <div class="game-title-bar">
+            <button class="back-btn" onclick="goHome()">⬅ Back</button>
+            <h2>Neon Snake</h2>
+        </div>
+        <div class="score-board">Score: <span id="snakeScore">0</span></div>
+        <canvas id="snakeCanvas" width="240" height="240"></canvas>
+        <div class="controls-pad">
+            <div></div>
+            <button class="ctrl-btn" onclick="changeDir('UP')">⬆</button>
+            <div></div>
+            <button class="ctrl-btn" onclick="changeDir('LEFT')">⬅</button>
+            <button class="ctrl-btn" onclick="changeDir('DOWN')">⬇</button>
+            <button class="ctrl-btn" onclick="changeDir('RIGHT')">➡</button>
+        </div>
+    </div>
+
+    <!-- GAME 2: CYBER TIC-TAC-TOE -->
+    <div id="tttGame" class="game-screen">
+        <div class="game-title-bar">
+            <button class="back-btn" onclick="goHome()">⬅ Back</button>
+            <h2>Cyber Tic-Tac</h2>
+        </div>
+        <div class="score-board" id="tttStatus">Player X's Turn</div>
+        <div class="ttt-board" id="tttBoard">
+            <div class="cell ttt-cell" onclick="makeTttMove(0)"></div>
+            <div class="cell ttt-cell" onclick="makeTttMove(1)"></div>
+            <div class="cell ttt-cell" onclick="makeTttMove(2)"></div>
+            <div class="cell ttt-cell" onclick="makeTttMove(3)"></div>
+            <div class="cell ttt-cell" onclick="makeTttMove(4)"></div>
+            <div class="cell ttt-cell" onclick="makeTttMove(5)"></div>
+            <div class="cell ttt-cell" onclick="makeTttMove(6)"></div>
+            <div class="cell ttt-cell" onclick="makeTttMove(7)"></div>
+            <div class="cell ttt-cell" onclick="makeTttMove(8)"></div>
+        </div>
+        <button class="action-btn" onclick="resetTtt()">Restart Game</button>
+    </div>
+
+    <!-- GAME 3: MEMORY FLIP -->
+    <div id="memoryGame" class="game-screen">
+        <div class="game-title-bar">
+            <button class="back-btn" onclick="goHome()">⬅ Back</button>
+            <h2>Memory Flip</h2>
+        </div>
+        <div class="score-board">Matches: <span id="memoryScore">0</span> / 4</div>
+        <div class="memory-grid" id="memoryGrid"></div>
+        <button class="action-btn" onclick="initMemory()">Restart</button>
+    </div>
+
+    <!-- GAME 4: TAP MASTER -->
+    <div id="clickerGame" class="game-screen">
+        <div class="game-title-bar">
+            <button class="back-btn" onclick="goHome()">⬅ Back</button>
+            <h2>Tap Master</h2>
+        </div>
+        <div class="score-board">Taps: <span id="clickCount">0</span> | Time: <span id="clickTimer">10</span>s</div>
+        <div class="clicker-box" id="clickBox" onclick="incrementTap()">
+            Tap Rapidly Here! 🔥
+        </div>
+        <button class="action-btn" onclick="startClicker()">Start Challenge</button>
+    </div>
+
+    <!-- Ad Banner Area -->
+    <div class="ad-banner">
+        <script async="async" data-cfasync="false" src="https://bauval.org/21/9cf0aa6ed8e312ad21735b574d3d5d8d"></script>
+        <div id="container-9cf0aa6ed8e312ad21735b574d3d5d8d"></div>
+    </div>
+</div>
+
+<!-- Remaining Ad Scripts -->
+<script data-cfasync="false" src="https://bauval.org/14/685028b51716ca3a8f56482ff0a1a547"></script>
+<script data-cfasync="false" src="https://abscloud.org/1/40e7eeeec3de18c5188f9b910b29bbda"></script>
+
+<script>
+    function triggerAd() {
+        // Smart Link redirect integration on user action
+        console.log("--> Smart Link & Ads Triggered!");
+        // Yeh line smart link ko background mein open karegi jab user koi game select karega
+        window.open("https://auctionr.org/4/1b04ec710f3d59e5ee50f96214316f07", "_blank");
+    }
+
+    function openGame(gameId) {
+        triggerAd();
+        document.getElementById('homeScreen').style.display = 'none';
+        document.querySelectorAll('.game-screen').forEach(s => s.style.display = 'none');
+        document.getElementById(gameId).style.display = 'block';
+
+        if(gameId === 'snakeGame') startSnake();
+        if(gameId === 'tttGame') resetTtt();
+        if(gameId === 'memoryGame') initMemory();
+    }
+
+    function goHome() {
+        document.querySelectorAll('.game-screen').forEach(s => s.style.display = 'none');
+        document.getElementById('homeScreen').style.display = 'grid';
+        clearInterval(snakeInterval);
+    }
+
+    /* --- 1. SNAKE GAME LOGIC --- */
+    let snakeCtx, snakeInterval;
+    let snake, food, dx, dy, score;
+    function startSnake() {
+        let canvas = document.getElementById('snakeCanvas');
+        snakeCtx = canvas.getContext('2d');
+        snake = [{x: 120, y: 120}, {x: 100, y: 120}, {x: 80, y: 120}];
+        dx = 20; dy = 0; score = 0;
+        document.getElementById('snakeScore').innerText = score;
+        createFood();
+        if(snakeInterval) clearInterval(snakeInterval);
+        snakeInterval = setInterval(mainSnake, 120);
+    }
+    function mainSnake() {
+        moveSnake();
+        if(hasGameEnded()) {
+            clearInterval(snakeInterval);
+            alert("Game Over! Score: " + score);
+            startSnake();
+            return;
+        }
+        clearCanvas();
+        drawFood();
+        drawSnake();
+    }
+    function clearCanvas() {
+        snakeCtx.fillStyle = "#020617";
+        snakeCtx.fillRect(0, 0, 240, 240);
+    }
+    function drawSnake() {
+        snake.forEach((part, index) => {
+            snakeCtx.fillStyle = index === 0 ? "#00f2fe" : "#38bdf8";
+            snakeCtx.fillRect(part.x, part.y, 18, 18);
+        });
+    }
+    function moveSnake() {
+        const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+        snake.unshift(head);
+        if(head.x === food.x && head.y === food.y) {
+            score += 10;
+            document.getElementById('snakeScore').innerText = score;
+            createFood();
+        } else {
+            snake.pop();
+        }
+    }
+    function createFood() {
+        food = {
+            x: Math.floor(Math.random() * 12) * 20,
+            y: Math.floor(Math.random() * 12) * 20
+        };
+    }
+    function drawFood() {
+        snakeCtx.fillStyle = "#ef4444";
+        snakeCtx.fillRect(food.x, food.y, 18, 18);
+    }
+    function changeDir(dir) {
+        if(dir === 'UP' && dy === 0) { dx = 0; dy = -20; }
+        if(dir === 'DOWN' && dy === 0) { dx = 0; dy = 20; }
+        if(dir === 'LEFT' && dx === 0) { dx = -20; dy = 0; }
+        if(dir === 'RIGHT' && dx === 0) { dx = 20; dy = 0; }
+    }
+    function hasGameEnded() {
+        for(let i = 4; i < snake.length; i++) {
+            if(snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true;
+        }
+        return snake[0].x < 0 || snake[0].x > 220 || snake[0].y < 0 || snake[0].y > 220;
+    }
+
+    /* --- 2. TIC-TAC-TOE LOGIC --- */
+    let tttBoardState = ['', '', '', '', '', '', '', '', ''];
+    let tttIsX = true;
+    let tttActive = true;
+    function makeTttMove(idx) {
+        if(tttBoardState[idx] === '' && tttActive) {
+            tttBoardState[idx] = tttIsX ? 'X' : 'O';
+            document.getElementsByClassName('ttt-cell')[idx].innerText = tttBoardState[idx];
+            document.getElementsByClassName('ttt-cell')[idx].style.color = tttIsX ? '#38bdf8' : '#f43f5e';
+            checkTttWin();
+            tttIsX = !tttIsX;
+            if(tttActive) document.getElementById('tttStatus').innerText = "Player " + (tttIsX ? 'X' : 'O') + "'s Turn";
+        }
+    }
+    function checkTttWin() {
+        const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+        for(let w of wins) {
+            let [a, b, c] = w;
+            if(tttBoardState[a] && tttBoardState[a] === tttBoardState[b] && tttBoardState[a] === tttBoardState[c]) {
+                document.getElementById('tttStatus').innerText = "Player " + tttBoardState[a] + " Wins! 🎉";
+                tttActive = false;
+                return;
+            }
+        }
+        if(!tttBoardState.includes('')) {
+            document.getElementById('tttStatus').innerText = "It's a Draw! 🤝";
+            tttActive = false;
+        }
+    }
+    function resetTtt() {
+        tttBoardState = ['', '', '', '', '', '', '', '', ''];
+        tttIsX = true;
+        tttActive = true;
+        document.getElementById('tttStatus').innerText = "Player X's Turn";
+        let cells = document.getElementsByClassName('ttt-cell');
+        for(let c of cells) c.innerText = '';
+    }
+
+    /* --- 3. MEMORY CARD FLIP LOGIC --- */
+    let emojis = ['🚀', '🔥', '💎', '⭐', '🚀', '🔥', '💎', '⭐'];
+    let firstCard = null, secondCard = null, lockBoard = false, matches = 0;
+    function initMemory() {
+        emojis.sort(() => 0.5 - Math.random());
+        let grid = document.getElementById('memoryGrid');
+        grid.innerHTML = '';
+        matches = 0;
+        document.getElementById('memoryScore').innerText = matches;
+        emojis.forEach((emoji) => {
+            let card = document.createElement('div');
+            card.className = 'memory-card';
+            card.dataset.emoji = emoji;
+            card.innerText = '❓';
+            card.onclick = () => flipCard(card);
+            grid.appendChild(card);
+        });
+    }
+    function flipCard(card) {
+        if(lockBoard || card === firstCard || card.innerText !== '❓') return;
+        card.innerText = card.dataset.emoji;
+        if(!firstCard) {
+            firstCard = card;
+            return;
+        }
+        secondCard = card;
+        checkMatch();
+    }
+    let matchLock = false;
+    function checkMatch() {
+        let isMatch = firstCard.dataset.emoji === secondCard.dataset.emoji;
+        if(isMatch) {
+            matches++;
+            document.getElementById('memoryScore').innerText = matches;
+            resetMemoryTurn();
+            if(matches === 4) setTimeout(() => alert('You Won Memory Match! 🎉'), 200);
+        } else {
+            lockBoard = true;
+            setTimeout(() => {
+                firstCard.innerText = '❓';
+                secondCard.innerText = '❓';
+                resetMemoryTurn();
+            }, 800);
+        }
+    }
+    function resetMemoryTurn() {
+        [firstCard, secondCard, lockBoard] = [null, null, false];
+    }
+
+    /* --- 4. TAP MASTER CLICKER LOGIC --- */
+    let tapCount = 0, timeLeft = 10, clickTimerInterval = null, isPlaying = false;
+    function incrementTap() {
+        if(!isPlaying) return;
+        tapCount++;
+        document.getElementById('clickCount').innerText = tapCount;
+    }
+    function startClicker() {
+        if(isPlaying) return;
+        tapCount = 0; timeLeft = 10; isPlaying = true;
+        document.getElementById('clickCount').innerText = tapCount;
+        document.getElementById('clickTimer').innerText = timeLeft;
+        if(clickTimerInterval) clearInterval(clickTimerInterval);
+        clickTimerInterval = setInterval(() => {
+            timeLeft--;
+            document.getElementById('clickTimer').innerText = timeLeft;
+            if(timeLeft <= 0) {
+                clearInterval(clickTimerInterval);
+                isPlaying = false;
+                alert("Time's up! Total Taps: " + tapCount);
+            }
+        }, 1000);
+    }
+</script>
+
+</body>
+  </html>
+    
