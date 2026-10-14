@@ -1,5 +1,4 @@
-
-        .<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -572,4 +571,18 @@
             resetMemoryTurn();
             if(matches === 4) setTimeout(() => alert('You Won Memory Match! 🎉'), 200);
         } else {
-            lockBoard
+            lockBoard = true;
+            setTimeout(() => {
+                firstCard.innerText = '❓';
+                secondCard.innerText = '❓';
+                resetMemoryTurn();
+            }, 800);
+        }
+    }
+    function resetMemoryTurn() {
+        [firstCard, secondCard, lockBoard] = [null, null, false];
+    }
+</script>
+
+</body>
+</html>
