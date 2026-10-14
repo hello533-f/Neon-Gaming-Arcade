@@ -1,22 +1,26 @@
-<!DOCTYPE html>
+
+        .<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neon Arcade Hub</title>
+    <title>CyberVerse 3D Arcade</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap');
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Outfit', sans-serif;
         }
         body {
-            background-color: #080c14;
+            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
             color: #f8fafc;
-            padding: 15px;
+            padding: 12px;
             display: flex;
             justify-content: center;
+            min-height: 100vh;
         }
         .container {
             width: 100%;
@@ -24,106 +28,149 @@
         }
         h1 {
             text-align: center;
-            margin-bottom: 15px;
-            color: #00f2fe;
-            font-size: 24px;
-            text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+            margin-bottom: 12px;
+            background: linear-gradient(90deg, #00f2fe, #4facfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
         }
-        /* Game Hub Grid */
+
+        /* Top Mobile Banner Ad */
+        .ad-banner {
+            margin: 10px 0;
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 8px;
+            text-align: center;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-x: auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 3D Modern Game Hub Grid */
         .arcade-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
+            margin-top: 10px;
         }
         .game-card {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            padding: 20px 15px;
-            border-radius: 14px;
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            padding: 22px 15px;
+            border-radius: 18px;
             text-align: center;
             cursor: pointer;
-            transition: 0.3s;
-            border: 1px solid #1e293b;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: 0.5s;
+        }
+        .game-card:hover::before {
+            left: 100%;
         }
         .game-card:hover {
             border-color: #00f2fe;
-            transform: translateY(-3px);
-            box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 242, 254, 0.2);
         }
         .game-card h3 {
             font-size: 15px;
-            color: #e2e8f0;
-            margin-top: 8px;
+            color: #f1f5f9;
+            margin-top: 10px;
+            font-weight: 600;
         }
         .game-icon {
-            font-size: 28px;
+            font-size: 36px;
+            filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.4));
         }
+
         /* Game Screen Container */
         .game-screen {
             display: none;
-            background: #111827;
+            background: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(16px);
             padding: 15px;
-            border-radius: 14px;
-            border: 1px solid #374151;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
             text-align: center;
+            animation: fadeIn 0.3s ease-in-out;
         }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
         .back-btn {
-            background: #ef4444;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
             color: white;
             border: none;
             padding: 8px 14px;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
-            float: left;
-            font-weight: bold;
+            font-weight: 600;
             font-size: 12px;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
             transition: 0.2s;
         }
         .back-btn:hover {
-            background: #dc2626;
+            transform: scale(1.05);
         }
         .game-title-bar {
-            overflow: hidden;
-            margin-bottom: 15px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            margin-bottom: 15px;
         }
         .game-title-bar h2 {
             font-size: 18px;
             color: #38bdf8;
+            font-weight: 600;
         }
         
-        /* Specific Game Layouts */
-        /* Snake */
+        /* Game Canvases & Boards */
         #snakeCanvas {
             background: #020617;
             border: 2px solid #00f2fe;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3), inset 0 0 15px rgba(0, 242, 254, 0.1);
             display: block;
             margin: 0 auto;
         }
         .controls-pad {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 5px;
-            max-width: 180px;
-            margin: 12px auto 0 auto;
+            gap: 6px;
+            max-width: 190px;
+            margin: 14px auto 0 auto;
         }
         .ctrl-btn {
-            background: #1f2937;
+            background: rgba(31, 41, 55, 0.8);
             color: white;
-            border: 1px solid #4b5563;
-            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px;
             font-size: 16px;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
+            transition: 0.2s;
         }
         .ctrl-btn:active {
             background: #00f2fe;
             color: #000;
+            box-shadow: 0 0 15px #00f2fe;
         }
 
         /* Tic-Tac-Toe */
@@ -135,20 +182,22 @@
             margin: 20px auto;
         }
         .ttt-cell {
-            background: #1f2937;
+            background: rgba(31, 41, 55, 0.8);
             height: 75px;
             font-size: 32px;
             font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
-            border: 1px solid #374151;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
         .ttt-cell:hover {
-            background: #374151;
+            background: rgba(55, 65, 81, 0.9);
+            border-color: #38bdf8;
         }
 
         /* Memory Cards */
@@ -160,74 +209,72 @@
             margin: 15px auto;
         }
         .memory-card {
-            background: #1f2937;
+            background: rgba(31, 41, 55, 0.9);
             height: 60px;
             font-size: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            border: 1px solid #374151;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             user-select: none;
+            transition: transform 0.3s;
         }
 
-        /* Clicker Game */
-        .clicker-box {
-            height: 160px;
-            background: radial-gradient(circle, #1e1b4b, #0f172a);
-            border: 2px dashed #6366f1;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            margin: 15px 0;
-            font-size: 20px;
-            font-weight: bold;
-            color: #818cf8;
-            user-select: none;
-        }
-        .clicker-box:active {
-            background: #312e81;
+        /* Stack Tower Game */
+        #stackCanvas {
+            background: #020617;
+            border: 2px solid #a855f7;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+            display: block;
+            margin: 0 auto;
         }
 
         .action-btn {
             width: 100%;
-            padding: 10px;
-            background: #0284c7;
+            padding: 12px;
+            background: linear-gradient(135deg, #0284c7, #0369a1);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-weight: bold;
+            border-radius: 10px;
+            font-weight: 600;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 12px;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
+            transition: 0.2s;
         }
         .action-btn:hover {
-            background: #0369a1;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.6);
         }
         .score-board {
-            font-size: 14px;
+            font-size: 15px;
             color: #38bdf8;
             margin-bottom: 10px;
-            font-weight: bold;
-        }
-
-        /* Ad Banner Area */
-        .ad-banner {
-            margin-top: 15px;
-            background: #111827;
-            padding: 12px;
-            text-align: center;
-            border-radius: 10px;
-            border: 1px solid #374151;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>⚡ NEON ARCADE HUB ⚡</h1>
+    <h1>⚡ CYBERVERSE 3D ⚡</h1>
+
+    <!-- Top Mobile Banner Ad (320x50) -->
+    <div class="ad-banner">
+        <script>
+          atOptions = {
+            'key' : 'aa557e2d177f650ac58c4429ad87f71c',
+            'format' : 'iframe',
+            'height' : 50,
+            'width' : 320,
+            'params' : {}
+          };
+        </script>
+        <script src="https://bauval.org/22/aa557e2d177f650ac58c4429ad87f71c"></script>
+    </div>
 
     <!-- HOME / GAME LIST SCREEN -->
     <div id="homeScreen" class="arcade-grid">
@@ -239,13 +286,13 @@
             <div class="game-icon">❌</div>
             <h3>Cyber Tic-Tac</h3>
         </div>
+        <div class="game-card" onclick="openGame('stackGame')">
+            <div class="game-icon">🏗️</div>
+            <h3>3D Tower Stack</h3>
+        </div>
         <div class="game-card" onclick="openGame('memoryGame')">
             <div class="game-icon">🃏</div>
             <h3>Memory Flip</h3>
-        </div>
-        <div class="game-card" onclick="openGame('clickerGame')">
-            <div class="game-icon">🎯</div>
-            <h3>Tap Master</h3>
         </div>
     </div>
 
@@ -288,7 +335,18 @@
         <button class="action-btn" onclick="resetTtt()">Restart Game</button>
     </div>
 
-    <!-- GAME 3: MEMORY FLIP -->
+    <!-- GAME 3: 3D TOWER STACK -->
+    <div id="stackGame" class="game-screen">
+        <div class="game-title-bar">
+            <button class="back-btn" onclick="goHome()">⬅ Back</button>
+            <h2>3D Tower Stack</h2>
+        </div>
+        <div class="score-board">Tower Height: <span id="stackScore">0</span></div>
+        <canvas id="stackCanvas" width="240" height="240" onclick="placeBlock()"></canvas>
+        <button class="action-btn" onclick="placeBlock()">STACK BLOCK 🟦</button>
+    </div>
+
+    <!-- GAME 4: MEMORY FLIP -->
     <div id="memoryGame" class="game-screen">
         <div class="game-title-bar">
             <button class="back-btn" onclick="goHome()">⬅ Back</button>
@@ -299,35 +357,24 @@
         <button class="action-btn" onclick="initMemory()">Restart</button>
     </div>
 
-    <!-- GAME 4: TAP MASTER -->
-    <div id="clickerGame" class="game-screen">
-        <div class="game-title-bar">
-            <button class="back-btn" onclick="goHome()">⬅ Back</button>
-            <h2>Tap Master</h2>
-        </div>
-        <div class="score-board">Taps: <span id="clickCount">0</span> | Time: <span id="clickTimer">10</span>s</div>
-        <div class="clicker-box" id="clickBox" onclick="incrementTap()">
-            Tap Rapidly Here! 🔥
-        </div>
-        <button class="action-btn" onclick="startClicker()">Start Challenge</button>
-    </div>
-
-    <!-- Ad Banner Area -->
+    <!-- Bottom Rectangle Ad (300x250) -->
     <div class="ad-banner">
-        <script async="async" data-cfasync="false" src="https://bauval.org/21/9cf0aa6ed8e312ad21735b574d3d5d8d"></script>
-        <div id="container-9cf0aa6ed8e312ad21735b574d3d5d8d"></div>
+        <script>
+          atOptions = {
+            'key' : '4cab10b4e25d6d96bb148fc9df791d8b',
+            'format' : 'iframe',
+            'height' : 250,
+            'width' : 300,
+            'params' : {}
+          };
+        </script>
+        <script src="https://bauval.org/22/4cab10b4e25d6d96bb148fc9df791d8b"></script>
     </div>
 </div>
 
-<!-- Remaining Ad Scripts -->
-<script data-cfasync="false" src="https://bauval.org/14/685028b51716ca3a8f56482ff0a1a547"></script>
-<script data-cfasync="false" src="https://abscloud.org/1/40e7eeeec3de18c5188f9b910b29bbda"></script>
-
 <script>
     function triggerAd() {
-        // Smart Link redirect integration on user action
-        console.log("--> Smart Link & Ads Triggered!");
-        // Yeh line smart link ko background mein open karegi jab user koi game select karega
+        // Smart Link Integration
         window.open("https://auctionr.org/4/1b04ec710f3d59e5ee50f96214316f07", "_blank");
     }
 
@@ -339,16 +386,18 @@
 
         if(gameId === 'snakeGame') startSnake();
         if(gameId === 'tttGame') resetTtt();
+        if(gameId === 'stackGame') startStack();
         if(gameId === 'memoryGame') initMemory();
     }
 
     function goHome() {
         document.querySelectorAll('.game-screen').forEach(s => s.style.display = 'none');
         document.getElementById('homeScreen').style.display = 'grid';
-        clearInterval(snakeInterval);
+        if(snakeInterval) clearInterval(snakeInterval);
+        if(stackInterval) clearInterval(stackInterval);
     }
 
-    /* --- 1. SNAKE GAME LOGIC --- */
+    /* --- 1. NEON SNAKE LOGIC --- */
     let snakeCtx, snakeInterval;
     let snake, food, dx, dy, score;
     function startSnake() {
@@ -455,7 +504,39 @@
         for(let c of cells) c.innerText = '';
     }
 
-    /* --- 3. MEMORY CARD FLIP LOGIC --- */
+    /* --- 3. 3D TOWER STACK LOGIC --- */
+    let stackCtx, stackInterval, blockX, blockWidth, blockY, blockDir, stackScore;
+    function startStack() {
+        let canvas = document.getElementById('stackCanvas');
+        stackCtx = canvas.getContext('2d');
+        blockX = 60; blockWidth = 120; blockY = 200; blockDir = 3; stackScore = 0;
+        document.getElementById('stackScore').innerText = stackScore;
+        if(stackInterval) clearInterval(stackInterval);
+        stackInterval = setInterval(mainStack, 30);
+    }
+    function mainStack() {
+        blockX += blockDir;
+        if(blockX <= 0 || blockX + blockWidth >= 240) blockDir *= -1;
+        
+        stackCtx.fillStyle = "#020617";
+        stackCtx.fillRect(0, 0, 240, 240);
+
+        // Draw moving block
+        stackCtx.fillStyle = "#a855f7";
+        stackCtx.fillRect(blockX, blockY, blockWidth, 20);
+    }
+    function placeBlock() {
+        blockY -= 25;
+        stackScore++;
+        document.getElementById('stackScore').innerText = stackScore;
+        blockWidth = Math.max(20, blockWidth - 8);
+        if(blockY < 20) {
+            alert("Amazing Tower Built! Score: " + stackScore);
+            startStack();
+        }
+    }
+
+    /* --- 4. MEMORY CARD FLIP LOGIC --- */
     let emojis = ['🚀', '🔥', '💎', '⭐', '🚀', '🔥', '💎', '⭐'];
     let firstCard = null, secondCard = null, lockBoard = false, matches = 0;
     function initMemory() {
@@ -483,7 +564,6 @@
         secondCard = card;
         checkMatch();
     }
-    let matchLock = false;
     function checkMatch() {
         let isMatch = firstCard.dataset.emoji === secondCard.dataset.emoji;
         if(isMatch) {
@@ -492,43 +572,4 @@
             resetMemoryTurn();
             if(matches === 4) setTimeout(() => alert('You Won Memory Match! 🎉'), 200);
         } else {
-            lockBoard = true;
-            setTimeout(() => {
-                firstCard.innerText = '❓';
-                secondCard.innerText = '❓';
-                resetMemoryTurn();
-            }, 800);
-        }
-    }
-    function resetMemoryTurn() {
-        [firstCard, secondCard, lockBoard] = [null, null, false];
-    }
-
-    /* --- 4. TAP MASTER CLICKER LOGIC --- */
-    let tapCount = 0, timeLeft = 10, clickTimerInterval = null, isPlaying = false;
-    function incrementTap() {
-        if(!isPlaying) return;
-        tapCount++;
-        document.getElementById('clickCount').innerText = tapCount;
-    }
-    function startClicker() {
-        if(isPlaying) return;
-        tapCount = 0; timeLeft = 10; isPlaying = true;
-        document.getElementById('clickCount').innerText = tapCount;
-        document.getElementById('clickTimer').innerText = timeLeft;
-        if(clickTimerInterval) clearInterval(clickTimerInterval);
-        clickTimerInterval = setInterval(() => {
-            timeLeft--;
-            document.getElementById('clickTimer').innerText = timeLeft;
-            if(timeLeft <= 0) {
-                clearInterval(clickTimerInterval);
-                isPlaying = false;
-                alert("Time's up! Total Taps: " + tapCount);
-            }
-        }, 1000);
-    }
-</script>
-
-</body>
-  </html>
-    
+            lockBoard
