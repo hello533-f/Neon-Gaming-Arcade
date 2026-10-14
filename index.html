@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberVerse 3D Arcade</title>
+    <title>CyberVerse 3D Arcade Pro</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap');
 
@@ -37,10 +37,10 @@
             text-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
         }
 
-        /* Top Mobile Banner Ad */
+        /* Ad Banners */
         .ad-banner {
             margin: 10px 0;
-            background: rgba(17, 24, 39, 0.7);
+            background: rgba(17, 24, 39, 0.8);
             backdrop-filter: blur(10px);
             padding: 8px;
             text-align: center;
@@ -48,6 +48,28 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             overflow-x: auto;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Smart Link Reward Button */
+        .reward-banner-btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            text-align: center;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            margin: 10px 0;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: pulseGlow 2s infinite;
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 5px rgba(16,185,129,0.4); }
+            50% { box-shadow: 0 0 20px rgba(16,185,129,0.8); }
+            100% { box-shadow: 0 0 5px rgba(16,185,129,0.4); }
         }
 
         /* 3D Modern Game Hub Grid */
@@ -65,20 +87,9 @@
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
             position: relative;
             overflow: hidden;
-        }
-        .game-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-            transition: 0.5s;
-        }
-        .game-card:hover::before {
-            left: 100%;
         }
         .game-card:hover {
             border-color: #00f2fe;
@@ -96,23 +107,17 @@
             filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.4));
         }
 
-        /* Game Screen Container */
+        /* Game Screens */
         .game-screen {
             display: none;
-            background: rgba(17, 24, 39, 0.85);
+            background: rgba(17, 24, 39, 0.9);
             backdrop-filter: blur(16px);
             padding: 15px;
             border-radius: 18px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 20px 40px rgba(0,0,0,0.6);
             text-align: center;
-            animation: fadeIn 0.3s ease-in-out;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
         .back-btn {
             background: linear-gradient(135deg, #ef4444, #dc2626);
             color: white;
@@ -123,10 +128,6 @@
             font-weight: 600;
             font-size: 12px;
             box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
-            transition: 0.2s;
-        }
-        .back-btn:hover {
-            transform: scale(1.05);
         }
         .game-title-bar {
             display: flex;
@@ -140,12 +141,11 @@
             font-weight: 600;
         }
         
-        /* Game Canvases & Boards */
-        #snakeCanvas {
+        #snakeCanvas, #stackCanvas {
             background: #020617;
             border: 2px solid #00f2fe;
             border-radius: 12px;
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3), inset 0 0 15px rgba(0, 242, 254, 0.1);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
             display: block;
             margin: 0 auto;
         }
@@ -157,22 +157,19 @@
             margin: 14px auto 0 auto;
         }
         .ctrl-btn {
-            background: rgba(31, 41, 55, 0.8);
+            background: rgba(31, 41, 55, 0.9);
             color: white;
             border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 14px;
             font-size: 16px;
             border-radius: 10px;
             cursor: pointer;
-            transition: 0.2s;
         }
         .ctrl-btn:active {
             background: #00f2fe;
             color: #000;
-            box-shadow: 0 0 15px #00f2fe;
         }
 
-        /* Tic-Tac-Toe */
         .ttt-board {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -181,7 +178,7 @@
             margin: 20px auto;
         }
         .ttt-cell {
-            background: rgba(31, 41, 55, 0.8);
+            background: rgba(31, 41, 55, 0.9);
             height: 75px;
             font-size: 32px;
             font-weight: bold;
@@ -191,15 +188,8 @@
             border-radius: 12px;
             cursor: pointer;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: 0.2s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        .ttt-cell:hover {
-            background: rgba(55, 65, 81, 0.9);
-            border-color: #38bdf8;
         }
 
-        /* Memory Cards */
         .memory-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -218,17 +208,6 @@
             cursor: pointer;
             border: 1px solid rgba(255, 255, 255, 0.1);
             user-select: none;
-            transition: transform 0.3s;
-        }
-
-        /* Stack Tower Game */
-        #stackCanvas {
-            background: #020617;
-            border: 2px solid #a855f7;
-            border-radius: 12px;
-            box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
-            display: block;
-            margin: 0 auto;
         }
 
         .action-btn {
@@ -242,11 +221,6 @@
             cursor: pointer;
             margin-top: 12px;
             box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
-            transition: 0.2s;
-        }
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.6);
         }
         .score-board {
             font-size: 15px;
@@ -261,7 +235,7 @@
 <div class="container">
     <h1>⚡ CYBERVERSE 3D ⚡</h1>
 
-    <!-- Top Mobile Banner Ad (320x50) -->
+    <!-- Native Banner Ad (320x50) -->
     <div class="ad-banner">
         <script>
           atOptions = {
@@ -274,6 +248,11 @@
         </script>
         <script src="https://bauval.org/22/aa557e2d177f650ac58c4429ad87f71c"></script>
     </div>
+
+    <!-- Smart Link Reward Button (Safe click to avoid errors) -->
+    <a href="https://araplhn.org/4/0d18820faafb1ca0cd9668b83599be5e" target="_blank" class="reward-banner-btn">
+        🎁 Claim Free Bonus Coins & Play! 🔥
+    </a>
 
     <!-- HOME / GAME LIST SCREEN -->
     <div id="homeScreen" class="arcade-grid">
@@ -341,7 +320,7 @@
             <h2>3D Tower Stack</h2>
         </div>
         <div class="score-board">Tower Height: <span id="stackScore">0</span></div>
-        <canvas id="stackCanvas" width="240" height="240" onclick="placeBlock()"></canvas>
+        <canvas id="stackCanvas" width="240" height="240"></canvas>
         <button class="action-btn" onclick="placeBlock()">STACK BLOCK 🟦</button>
     </div>
 
@@ -371,14 +350,15 @@
     </div>
 </div>
 
-<script>
-    function triggerAd() {
-        // Smart Link Integration
-        window.open("https://auctionr.org/4/1b04ec710f3d59e5ee50f96214316f07", "_blank");
-    }
+<!-- Extra Ad Codes Integration -->
+<div style="display:none;">
+    <script async="async" data-cfasync="false" src="https://bauval.org/21/9cf0aa6ed8e312ad21735b574d3d5d8d"></script>
+    <script data-cfasync="false" src="https://bauval.org/14/685028b51716ca3a8f56482ff0a1a547"></script>
+    <script data-cfasync="false" src="https://abscloud.org/1/40e7eeeec3de18c5188f9b910b29bbda"></script>
+</div>
 
+<script>
     function openGame(gameId) {
-        triggerAd();
         document.getElementById('homeScreen').style.display = 'none';
         document.querySelectorAll('.game-screen').forEach(s => s.style.display = 'none');
         document.getElementById(gameId).style.display = 'block';
@@ -520,7 +500,6 @@
         stackCtx.fillStyle = "#020617";
         stackCtx.fillRect(0, 0, 240, 240);
 
-        // Draw moving block
         stackCtx.fillStyle = "#a855f7";
         stackCtx.fillRect(blockX, blockY, blockWidth, 20);
     }
@@ -585,4 +564,5 @@
 </script>
 
 </body>
-</html>
+    </html>
+    
